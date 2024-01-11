@@ -1,0 +1,7 @@
+{
+    "plugins": ["lit-a11y"],
+    "rules": {
+        "lit-a11y/rule-name": 2
+    },
+    "extends": ["plugin:lit-a11y/recommended"]
+}

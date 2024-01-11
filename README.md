@@ -1,5 +1,9 @@
 # Memory game
 
+## Preparation
+
+Execute `npm install` in base folder.
+
 ## Instructions
 
 Click "Play" to start.
