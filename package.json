@@ -1,6 +1,21 @@
 {
   "devDependencies": {
+    "@web/dev-server": "^0.4.1",
     "eslint": "^8.56.0",
     "eslint-plugin-lit-a11y": "^1.1.0-next.1"
+  },
+  "name": "memory-game",
+  "description": "## Preparation",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm test",
+    "start": "web-dev-server --node-resolve --open --watch --app-index index.html"
+  },
+  "author": "José María",
+  "license": "MIT",
+  "dependencies": {
+    "@vaadin/router": "^1.7.5",
+    "lit": "^3.1.1"
   }
 }
