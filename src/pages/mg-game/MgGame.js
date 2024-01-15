@@ -23,19 +23,32 @@ export class MgGame extends LitElement {
 
     static properties = {
         cards: { type: Array },
+        numbers: { type: Array },
+        randomNumber: { type: Number }
     }
     
     constructor(){
         super();
-        this.cards = Array.from({ length: 9 }, (_, index) => ({ number: index + 1 }));
+        this.cards = this.fillArray();
         this.cards.sort(function() {
             return Math.random() - 0.5;
         });
+        this.numbers = this.fillArray();
+        this.numbers.sort(function() {
+            return Math.random() - 0.5;
+        });;
+
+        this.randomNumber = this.numbers.pop().number;
+        
     }
     
+    fillArray = () => {
+        return Array.from({ length: 9 }, (_, index) => ({ number: index + 1 }));
+    }
+
     render() {
         return html`
-            <mg-indicator>8</mg-indicator>
+            <mg-indicator>${this.randomNumber}</mg-indicator>
             <div class='card-wrapper'>
                 ${this.cards.map(
                     card =>
