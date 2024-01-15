@@ -19,10 +19,13 @@ export class MgGame extends LitElement {
     static properties = {
         cards: { type: Array },
     }
-
+    
     constructor(){
         super();
         this.cards = Array.from({ length: 9 }, (_, index) => ({ number: index + 1 }));
+        this.cards.sort(function() {
+            return Math.random() - 0.5;
+        });
     }
     
     render() {
