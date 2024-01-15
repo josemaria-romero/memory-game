@@ -5,22 +5,14 @@ export class MgGame extends LitElement {
     static styles = [
         css`
             :host {
-                display: block;
-            }
-
-            .cards-container{
                 margin: 0 auto;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content:center;
-                gap: 10px;
+                gap: 10px;           
             }
 
-            mg-card{
-                width: 100px;
-                height: 100px;
-            }
         `
     ];
 
@@ -35,15 +27,12 @@ export class MgGame extends LitElement {
     
     render() {
         return html`
-        <div class='cards-container'>
             ${this.cards.map(
                 card =>
                 html`
-                    <mg-card .number=${card.number}></mg-card>
+                    <mg-card>${card.number}</mg-card>
                 `
-            )}
-        </div>
-        
+            )}        
         `;
     }
 }

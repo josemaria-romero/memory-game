@@ -4,6 +4,8 @@
 
 Execute `npm install` in base folder.
 
+Execute `npm start` 
+
 ## Instructions
 
 Click "Play" to start.
