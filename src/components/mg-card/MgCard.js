@@ -6,7 +6,6 @@ export class MgCard extends LitElement {
     
     static get properties() {
         return {
-            number: { type: Number },
             tapped: { type: Boolean },
             correct: { type: Boolean }
         };
