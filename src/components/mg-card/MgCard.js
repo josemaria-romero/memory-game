@@ -14,6 +14,7 @@ export class MgCard extends LitElement {
       border: 1px solid;
       width: 100px;
       height: 100px;
+      font-size: 30px;
     }
 
     div {

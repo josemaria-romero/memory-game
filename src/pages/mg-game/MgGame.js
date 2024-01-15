@@ -1,16 +1,21 @@
 import { LitElement, html, css } from 'lit';
 import "../../components/mg-card/mg-card.js";
+import "../../components/mg-indicator/mg-indicator.js";
 
 export class MgGame extends LitElement {
     static styles = [
         css`
             :host {
+                display: block;   
+            }
+
+            .card-wrapper {
                 margin: 0 auto;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content:center;
-                gap: 10px;           
+                gap: 10px;   
             }
 
         `
@@ -30,12 +35,15 @@ export class MgGame extends LitElement {
     
     render() {
         return html`
-            ${this.cards.map(
-                card =>
-                html`
-                    <mg-card>${card.number}</mg-card>
-                `
-            )}        
+            <mg-indicator>8</mg-indicator>
+            <div class='card-wrapper'>
+                ${this.cards.map(
+                    card =>
+                    html`
+                        <mg-card>${card.number}</mg-card>
+                    `
+                )}
+            </div>        
         `;
     }
 }
