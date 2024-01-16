@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
+import "../../components/mg-modal/mg-modal.js";
 
 export class MgGame extends LitElement {
   static styles = [
@@ -38,6 +39,7 @@ export class MgGame extends LitElement {
     numbers: { type: Array },
     randomNumber: { type: Number },
     gameStarted: { type: Boolean, attribute: false },
+    modalHidden: { type: Boolean, attribute: true },
   };
 
   constructor() {
@@ -49,6 +51,7 @@ export class MgGame extends LitElement {
   }
 
   prepareGame = () => {
+    this.modalHidden = true;
     this.gameStarted = false;
     this.cards = this.fillArray();
     this.cards.sort(function () {
@@ -93,9 +96,15 @@ export class MgGame extends LitElement {
       this.getRandomNumber();
     } else {
         e.target.wrong = true;
+        this.gameOver();
     }
     e.stopPropagation();
   };
+
+  gameOver = () => {
+    this.modalHidden=false;
+    this.requestUpdate;
+  }
 
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
@@ -110,6 +119,7 @@ export class MgGame extends LitElement {
         )}
       </div>
       <button @click=${() => this.prepareGame()}>Restart game</button>
+      <mg-modal .hide=${this.modalHidden}>Game over</mg-modal>
     `;
   }
 }
