@@ -46,9 +46,23 @@ export class MgCard extends LitElement {
     super();
     this.tapped = false;
     this.correct = false;
-    this.addEventListener("click", () => {
-      this.tapped = !this.tapped;
-    });
+    
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener("click", this.toogleTapped);
+  }  
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("click", this.toogleTapped);
+  }
+
+  toogleTapped = () => {
+    this.tapped = !this.tapped;
+    const e = new CustomEvent('discover', { detail: { prueba: this}, composed: true, bubbles: true})
+    this.dispatchEvent(e);
   }
 
   render() {

@@ -27,7 +27,7 @@ export class MgGame extends LitElement {
         width: 100px;
       }
 
-      .tapped{
+      .tapped {
         background-color: #000;
       }
     `,
@@ -37,16 +37,17 @@ export class MgGame extends LitElement {
     cards: { type: Array },
     numbers: { type: Array },
     randomNumber: { type: Number },
-    gameStarted: {type: Boolean, attribute: false} 
+    gameStarted: { type: Boolean, attribute: false },
   };
 
   constructor() {
     super();
     this.prepareGame();
+    this.addEventListener('discover', (e)=>{console.log(e)})
   }
 
   prepareGame = () => {
-    this.gameStarted= false;
+    this.gameStarted = false;
     this.cards = this.fillArray();
     this.cards.sort(function () {
       return Math.random() - 0.5;
@@ -56,12 +57,16 @@ export class MgGame extends LitElement {
       return Math.random() - 0.5;
     });
 
-    this.randomNumber = this.numbers.pop().number;
+    this.getRandomNumber();
 
     setTimeout(() => {
       this.startGame();
     }, 3000);
   };
+
+  getRandomNumber = () => {
+    this.randomNumber = this.numbers.pop().number;
+  }
 
   fillArray = () => {
     return Array.from({ length: 9 }, (_, index) => ({
@@ -72,18 +77,30 @@ export class MgGame extends LitElement {
 
   startGame() {
     this.cards.forEach((card) => {
-        card.tapped = true;
+      card.tapped = true;
     });
-    this.gameStarted= true;
+    this.gameStarted = true;
     this.requestUpdate();
-
   }
+
+  cardTapped = (e) => {
+    if(e.target.textContent === this.randomNumber.toString()){
+        e.target.correct = true;
+        this.getRandomNumber();
+    } 
+    e.stopPropagation();
+  };
 
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <mg-indicator class=${classMap(indicatorClasses)}>${this.randomNumber}</mg-indicator>
-      <div class="card-wrapper">
+      <mg-indicator class=${classMap(indicatorClasses)}
+        >${this.randomNumber}</mg-indicator
+      >
+      <div
+        @discover=${this.cardTapped}
+        class="card-wrapper"
+      >
         ${this.cards.map(
           (card) =>
             html` <mg-card .tapped=${card.tapped}>${card.number}</mg-card> `
