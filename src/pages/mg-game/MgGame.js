@@ -43,17 +43,18 @@ export class MgGame extends LitElement {
     }
     
     fillArray = () => {
-        return Array.from({ length: 9 }, (_, index) => ({ number: index + 1 }));
+        return Array.from({ length: 9 }, (_, index) => ({ number: index + 1, tapped: true }));
     }
 
     render() {
+        console.log(this.cards)
         return html`
             <mg-indicator>${this.randomNumber}</mg-indicator>
             <div class='card-wrapper'>
                 ${this.cards.map(
                     card =>
                     html`
-                        <mg-card>${card.number}</mg-card>
+                        <mg-card .tapped=${card.tapped}>${card.number}</mg-card>
                     `
                 )}
             </div>        
