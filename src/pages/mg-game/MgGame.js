@@ -43,7 +43,9 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.prepareGame();
-    this.addEventListener('discover', (e)=>{console.log(e)})
+    this.addEventListener("discover", (e) => {
+      console.log(e);
+    });
   }
 
   prepareGame = () => {
@@ -66,7 +68,7 @@ export class MgGame extends LitElement {
 
   getRandomNumber = () => {
     this.randomNumber = this.numbers.pop().number;
-  }
+  };
 
   fillArray = () => {
     return Array.from({ length: 9 }, (_, index) => ({
@@ -78,29 +80,30 @@ export class MgGame extends LitElement {
   startGame() {
     this.cards.forEach((card) => {
       card.tapped = true;
+      card.correct = false;
+      card.wrong = false;
     });
     this.gameStarted = true;
     this.requestUpdate();
   }
 
   cardTapped = (e) => {
-    if(e.target.textContent === this.randomNumber.toString()){
-        e.target.correct = true;
-        this.getRandomNumber();
-    } 
+    if (e.target.textContent === this.randomNumber.toString()) {
+      e.target.correct = true;
+      this.getRandomNumber();
+    } else {
+        e.target.wrong = true;
+    }
     e.stopPropagation();
   };
 
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <mg-indicator class=${classMap(indicatorClasses)}
-        >${this.randomNumber}</mg-indicator
-      >
-      <div
-        @discover=${this.cardTapped}
-        class="card-wrapper"
-      >
+      <mg-indicator class=${classMap(indicatorClasses)}>
+        ${this.randomNumber}
+      </mg-indicator>
+      <div @discover=${this.cardTapped} class="card-wrapper">
         ${this.cards.map(
           (card) =>
             html` <mg-card .tapped=${card.tapped}>${card.number}</mg-card> `

@@ -6,6 +6,7 @@ export class MgCard extends LitElement {
     return {
       tapped: { type: Boolean },
       correct: { type: Boolean },
+      wrong: { type: Boolean },
     };
   }
 
@@ -42,13 +43,6 @@ export class MgCard extends LitElement {
     }
   `;
 
-  constructor() {
-    super();
-    this.tapped = false;
-    this.correct = false;
-    
-  }
-
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener("click", this.toogleTapped);
@@ -66,7 +60,7 @@ export class MgCard extends LitElement {
   }
 
   render() {
-    const classes = { tapped: this.tapped, correct: this.correct };
+    const classes = { tapped: this.tapped, correct: this.correct, wrong: this.wrong };
 
     return html`
       <div class=${classMap(classes)}>
