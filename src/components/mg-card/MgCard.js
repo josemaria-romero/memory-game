@@ -53,7 +53,6 @@ export class MgCard extends LitElement {
 
   render() {
     const classes = { tapped: this.tapped, correct: this.correct };
-    this.classList = classMap(classes);
 
     return html`
       <div class=${classMap(classes)}>

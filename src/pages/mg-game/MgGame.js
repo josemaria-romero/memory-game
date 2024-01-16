@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit";
+import { classMap } from "lit/directives/class-map.js";
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 
@@ -26,7 +27,7 @@ export class MgGame extends LitElement {
         width: 100px;
       }
 
-      .bg-black{
+      .tapped{
         background-color: #000;
       }
     `,
@@ -36,6 +37,7 @@ export class MgGame extends LitElement {
     cards: { type: Array },
     numbers: { type: Array },
     randomNumber: { type: Number },
+    gameStarted: {type: Boolean, attribute: false} 
   };
 
   constructor() {
@@ -54,6 +56,8 @@ export class MgGame extends LitElement {
     });
 
     this.randomNumber = this.numbers.pop().number;
+
+
   };
 
   fillArray = () => {
@@ -64,8 +68,10 @@ export class MgGame extends LitElement {
   };
 
   render() {
+    const indicatorClasses = { tapped: !this.gameStarted };
+
     return html`
-      <mg-indicator>${this.randomNumber}</mg-indicator>
+      <mg-indicator class=${classMap(indicatorClasses)}>${this.randomNumber}</mg-indicator>
       <div class="card-wrapper">
         ${this.cards.map(
           (card) =>
