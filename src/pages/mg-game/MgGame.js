@@ -42,10 +42,11 @@ export class MgGame extends LitElement {
 
   constructor() {
     super();
-    this.startGame();
+    this.prepareGame();
   }
 
-  startGame = () => {
+  prepareGame = () => {
+    this.gameStarted= false;
     this.cards = this.fillArray();
     this.cards.sort(function () {
       return Math.random() - 0.5;
@@ -57,7 +58,9 @@ export class MgGame extends LitElement {
 
     this.randomNumber = this.numbers.pop().number;
 
-
+    setTimeout(() => {
+      this.startGame();
+    }, 3000);
   };
 
   fillArray = () => {
@@ -67,9 +70,17 @@ export class MgGame extends LitElement {
     }));
   };
 
+  startGame() {
+    this.cards.forEach((card) => {
+        card.tapped = true;
+    });
+    this.gameStarted= true;
+    this.requestUpdate();
+
+  }
+
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
-
     return html`
       <mg-indicator class=${classMap(indicatorClasses)}>${this.randomNumber}</mg-indicator>
       <div class="card-wrapper">
@@ -78,7 +89,7 @@ export class MgGame extends LitElement {
             html` <mg-card .tapped=${card.tapped}>${card.number}</mg-card> `
         )}
       </div>
-      <button @click=${() => this.startGame()}>Restart game</button>
+      <button @click=${() => this.prepareGame()}>Restart game</button>
     `;
   }
 }
