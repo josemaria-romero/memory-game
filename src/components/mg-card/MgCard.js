@@ -55,13 +55,12 @@ export class MgCard extends LitElement {
 
   toogleTapped = () => {
     this.tapped = !this.tapped;
-    const e = new CustomEvent('discover', { detail: { prueba: this}, composed: true, bubbles: true})
+    const e = new CustomEvent('discover', { composed: true, bubbles: true})
     this.dispatchEvent(e);
   }
 
   render() {
     const classes = { tapped: this.tapped, correct: this.correct, wrong: this.wrong };
-
     return html`
       <div class=${classMap(classes)}>
         <slot></slot>

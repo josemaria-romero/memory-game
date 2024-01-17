@@ -5,6 +5,7 @@ export class MgModal extends LitElement {
   static get properties() {
     return {
       hide: { type: Boolean },
+      buttonCallback: {type: Function}
     };
   }
   static styles = [
@@ -40,7 +41,7 @@ export class MgModal extends LitElement {
         display: none;
       }
 
-      #restartBtn {
+      #restartButton {
         margin-top: 10px;
         padding: 10px 20px;
         font-size: 16px;
@@ -58,8 +59,8 @@ export class MgModal extends LitElement {
     return html`
       <div id="overlay" class=${classMap(classes)}></div>
       <div id="modal" class=${classMap(classes)}>
-        <p><slot></slot></p>
-        <button id="restartBtn">Restart Game</button>
+        <slot>Game Over</slot>
+        <button id="restartButton" @click=${()=>this.buttonCallback()}>Restart game</button>
       </div> 
     `;
   }

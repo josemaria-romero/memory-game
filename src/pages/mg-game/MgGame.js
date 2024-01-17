@@ -31,6 +31,8 @@ export class MgGame extends LitElement {
       .tapped {
         background-color: #000;
       }
+
+      
     `,
   ];
 
@@ -45,25 +47,23 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.prepareGame();
-    this.addEventListener("discover", (e) => {
-      console.log(e);
-    });
   }
 
   prepareGame = () => {
     this.modalHidden = true;
     this.gameStarted = false;
     this.cards = this.fillArray();
+    
     this.cards.sort(function () {
       return Math.random() - 0.5;
     });
+
     this.numbers = this.fillArray();
     this.numbers.sort(function () {
       return Math.random() - 0.5;
     });
 
     this.getRandomNumber();
-
     setTimeout(() => {
       this.startGame();
     }, 3000);
@@ -77,10 +77,12 @@ export class MgGame extends LitElement {
     return Array.from({ length: 9 }, (_, index) => ({
       number: index + 1,
       tapped: false,
+      correct: false,
+      wrong: false
     }));
   };
 
-  startGame() {
+  startGame = () => {
     this.cards.forEach((card) => {
       card.tapped = true;
       card.correct = false;
@@ -88,6 +90,7 @@ export class MgGame extends LitElement {
     });
     this.gameStarted = true;
     this.requestUpdate();
+
   }
 
   cardTapped = (e) => {
@@ -103,7 +106,6 @@ export class MgGame extends LitElement {
 
   gameOver = () => {
     this.modalHidden=false;
-    this.requestUpdate;
   }
 
   render() {
@@ -115,11 +117,13 @@ export class MgGame extends LitElement {
       <div @discover=${this.cardTapped} class="card-wrapper">
         ${this.cards.map(
           (card) =>
-            html` <mg-card .tapped=${card.tapped}>${card.number}</mg-card> `
+            html` <mg-card .tapped=${card.tapped} .correct=${card.correct} .wrong=${card.wrong}>${card.number}</mg-card> `
         )}
       </div>
       <button @click=${() => this.prepareGame()}>Restart game</button>
-      <mg-modal .hide=${this.modalHidden}>Game over</mg-modal>
+      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.prepareGame}>
+       Game over
+      </mg-modal>
     `;
   }
 }
