@@ -1,10 +1,11 @@
 import { LitElement, html, css } from "lit";
+import { property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 export class MgCard extends LitElement {
-  static get properties() {
+    @property({ type: Boolean, reflect: true }) tapped;
+    static get properties() {
     return {
-      tapped: { type: Boolean, reflect: true },
       correct: { type: Boolean, reflect: true },
       wrong: { type: Boolean, reflect: true },
     };
