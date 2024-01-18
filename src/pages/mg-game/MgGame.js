@@ -38,6 +38,7 @@ export class MgGame extends LitElement {
 
   static properties = {
     cards: { type: Array },
+    cardsNumbers: { type: Array },
     numbers: { type: Array },
     randomNumber: { type: Number },
     gameStarted: { type: Boolean, attribute: false },
@@ -49,12 +50,25 @@ export class MgGame extends LitElement {
     this.prepareGame();
   }
 
+  prepareCards = () => {
+    this.cards = this.shadowRoot.querySelectorAll('mg-card');
+  }
+
+  connectedCallback(){
+    super.connectedCallback();
+    this.prepareCards();
+    this.getRandomNumber();
+    setTimeout(() => {
+      this.startGame();
+    }, 3000);
+  }
+
   prepareGame = () => {
     this.modalHidden = true;
     this.gameStarted = false;
-    this.cards = this.fillArray();
+    this.cardsNumbers = this.fillArray();
     
-    this.cards.sort(function () {
+    this.cardsNumbers.sort(function () {
       return Math.random() - 0.5;
     });
 
@@ -62,24 +76,14 @@ export class MgGame extends LitElement {
     this.numbers.sort(function () {
       return Math.random() - 0.5;
     });
-
-    this.getRandomNumber();
-    setTimeout(() => {
-      this.startGame();
-    }, 3000);
   };
 
   getRandomNumber = () => {
-    this.randomNumber = this.numbers.pop().number;
+    this.randomNumber = this.numbers.pop();
   };
 
   fillArray = () => {
-    return Array.from({ length: 9 }, (_, index) => ({
-      number: index + 1,
-      tapped: false,
-      correct: false,
-      wrong: false
-    }));
+    return Array.from({ length: 9 }, (_, index) => ( index + 1));
   };
 
   startGame = () => {
@@ -115,9 +119,9 @@ export class MgGame extends LitElement {
         ${this.randomNumber}
       </mg-indicator>
       <div @discover=${this.cardTapped} class="card-wrapper">
-        ${this.cards.map(
+        ${this.cardsNumbers.map(
           (card) =>
-            html` <mg-card .tapped=${card.tapped} .correct=${card.correct} .wrong=${card.wrong}>${card.number}</mg-card> `
+            html` <mg-card>${card}</mg-card> `
         )}
       </div>
       <button @click=${() => this.prepareGame()}>Restart game</button>

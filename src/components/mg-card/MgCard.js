@@ -4,9 +4,9 @@ import { classMap } from "lit/directives/class-map.js";
 export class MgCard extends LitElement {
   static get properties() {
     return {
-      tapped: { type: Boolean },
-      correct: { type: Boolean },
-      wrong: { type: Boolean },
+      tapped: { type: Boolean, reflect: true },
+      correct: { type: Boolean, reflect: true },
+      wrong: { type: Boolean, reflect: true },
     };
   }
 
@@ -16,29 +16,21 @@ export class MgCard extends LitElement {
       width: 100px;
       height: 100px;
       font-size: 30px;
-    }
-
-    div {
-      width: 100%;
-      height: 100%;
+      background-color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .tapped {
+    :host([tapped]) {
       background-color: #000;
     }
 
-    .untapped {
-      background-color: #fff;
-    }
-
-    .correct {
+    :host([correct]) {
       background-color: green;
     }
 
-    .wrong {
+    :host([wrong]) {
       background-color: red;
     }
   `;
@@ -46,7 +38,7 @@ export class MgCard extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener("click", this.toogleTapped);
-  }  
+  }
 
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -55,16 +47,11 @@ export class MgCard extends LitElement {
 
   toogleTapped = () => {
     this.tapped = !this.tapped;
-    const e = new CustomEvent('discover', { composed: true, bubbles: true})
+    const e = new CustomEvent("discover", { composed: true, bubbles: true });
     this.dispatchEvent(e);
-  }
+  };
 
   render() {
-    const classes = { tapped: this.tapped, correct: this.correct, wrong: this.wrong };
-    return html`
-      <div class=${classMap(classes)}>
-        <slot></slot>
-      </div>
-    `;
+    return html`<slot></slot>`;
   }
 }
