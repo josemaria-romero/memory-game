@@ -54,19 +54,21 @@ export class MgGame extends LitElement {
   prepareCards = () => {
     this.cards = this.shadowRoot.querySelectorAll("mg-card");
     this.cards.forEach((card) => {
-        card.tapped = false;
-        card.correct = false;
-        card.wrong = false;
-      });
+      card.tapped = false;
+      card.correct = false;
+      card.wrong = false;
+    });
   };
-
-  restartGame = () => {
-    this.configureGame();
-  }
 
   configureGame = () => {
     this.modalHidden = true;
     this.gameStarted = false;
+    this.cardsNumbers.sort(function () {
+      return Math.random() - 0.5;
+    });
+    this.numbers.sort(function () {
+      return Math.random() - 0.5;
+    });
     this.prepareCards();
     this.getRandomNumber();
     this.requestUpdate();
@@ -77,13 +79,7 @@ export class MgGame extends LitElement {
 
   configureBoard = () => {
     this.cardsNumbers = this.fillArray();
-    this.cardsNumbers.sort(function () {
-      return Math.random() - 0.5;
-    });
     this.numbers = this.fillArray();
-    this.numbers.sort(function () {
-      return Math.random() - 0.5;
-    });
   };
 
   getRandomNumber = () => {
@@ -127,11 +123,8 @@ export class MgGame extends LitElement {
       <div @discover=${this.cardTapped} class="card-wrapper">
         ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
-      <button @click=${() => this.restartGame()}>Restart game</button>
-      <mg-modal
-        .hide=${this.modalHidden}
-        .buttonCallback=${this.restartGame}
-      >
+      <button @click=${() => this.configureGame()}>Restart game</button>
+      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.configureGame}>
         Game over
       </mg-modal>
     `;
