@@ -3,14 +3,16 @@ import { property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 export class MgCard extends LitElement {
-    @property({ type: Boolean, reflect: true }) tapped;
-    static get properties() {
+//   @property({ type: Boolean, reflect: true }) tapped = true;
+//   @property({ type: Boolean, reflect: true }) correct = false;
+//   @property({ type: Boolean, reflect: true }) wrong = false;
+  static get properties() {
     return {
+      tapped: { type: Boolean, reflect: true },
       correct: { type: Boolean, reflect: true },
       wrong: { type: Boolean, reflect: true },
     };
   }
-
   static styles = css`
     :host {
       border: 1px solid;

@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { property } from "lit/decorators.js";
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 import "../../components/mg-modal/mg-modal.js";
@@ -31,47 +32,54 @@ export class MgGame extends LitElement {
       .tapped {
         background-color: #000;
       }
-
-      
     `,
   ];
 
-  static properties = {
-    cards: { type: Array },
-    cardsNumbers: { type: Array },
-    numbers: { type: Array },
-    randomNumber: { type: Number },
-    gameStarted: { type: Boolean, attribute: false },
-    modalHidden: { type: Boolean, attribute: true },
-  };
+  @property({ type: Array }) cards;
+  @property({ type: Array }) cardsNumbers;
+  @property({ type: Array }) numbers;
+  @property({ type: Number }) randomNumber;
+  @property({ type: Boolean }) gameStarted = false;
+  @property({ type: Boolean }) modalHidden = true;
 
   constructor() {
     super();
-    this.prepareGame();
+    this.configureBoard();
+  }
+
+  firstUpdated() {
+    this.configureGame();
   }
 
   prepareCards = () => {
-    this.cards = this.shadowRoot.querySelectorAll('mg-card');
+    this.cards = this.shadowRoot.querySelectorAll("mg-card");
+    this.cards.forEach((card) => {
+        card.tapped = false;
+        card.correct = false;
+        card.wrong = false;
+      });
+  };
+
+  restartGame = () => {
+    this.configureGame();
   }
 
-  connectedCallback(){
-    super.connectedCallback();
+  configureGame = () => {
+    this.modalHidden = true;
+    this.gameStarted = false;
     this.prepareCards();
     this.getRandomNumber();
+    this.requestUpdate();
     setTimeout(() => {
       this.startGame();
     }, 3000);
-  }
+  };
 
-  prepareGame = () => {
-    this.modalHidden = true;
-    this.gameStarted = false;
+  configureBoard = () => {
     this.cardsNumbers = this.fillArray();
-    
     this.cardsNumbers.sort(function () {
       return Math.random() - 0.5;
     });
-
     this.numbers = this.fillArray();
     this.numbers.sort(function () {
       return Math.random() - 0.5;
@@ -83,34 +91,32 @@ export class MgGame extends LitElement {
   };
 
   fillArray = () => {
-    return Array.from({ length: 9 }, (_, index) => ( index + 1));
+    return Array.from({ length: 9 }, (_, index) => index + 1);
   };
 
   startGame = () => {
     this.cards.forEach((card) => {
       card.tapped = true;
-      card.correct = false;
-      card.wrong = false;
     });
     this.gameStarted = true;
     this.requestUpdate();
-
-  }
+  };
 
   cardTapped = (e) => {
     if (e.target.textContent === this.randomNumber.toString()) {
       e.target.correct = true;
       this.getRandomNumber();
     } else {
-        e.target.wrong = true;
-        this.gameOver();
+      e.target.wrong = true;
+      this.gameOver();
     }
     e.stopPropagation();
+    this.requestUpdate();
   };
 
   gameOver = () => {
-    this.modalHidden=false;
-  }
+    this.modalHidden = false;
+  };
 
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
@@ -119,14 +125,14 @@ export class MgGame extends LitElement {
         ${this.randomNumber}
       </mg-indicator>
       <div @discover=${this.cardTapped} class="card-wrapper">
-        ${this.cardsNumbers.map(
-          (card) =>
-            html` <mg-card>${card}</mg-card> `
-        )}
+        ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
-      <button @click=${() => this.prepareGame()}>Restart game</button>
-      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.prepareGame}>
-       Game over
+      <button @click=${() => this.restartGame()}>Restart game</button>
+      <mg-modal
+        .hide=${this.modalHidden}
+        .buttonCallback=${this.restartGame}
+      >
+        Game over
       </mg-modal>
     `;
   }
