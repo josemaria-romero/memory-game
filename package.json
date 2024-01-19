@@ -10,6 +10,7 @@
   },
   "name": "memory-game",
   "description": "## Preparation",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
