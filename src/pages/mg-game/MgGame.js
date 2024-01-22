@@ -35,12 +35,16 @@ export class MgGame extends LitElement {
     `,
   ];
 
-  @property({ type: Array }) cards;
-  @property({ type: Array }) cardsNumbers;
-  @property({ type: Array }) numbers;
-  @property({ type: Number }) randomNumber;
-  @property({ type: Boolean }) gameStarted = false;
-  @property({ type: Boolean }) modalHidden = true;
+  static get properties() {
+    return {
+        gameStarted: { type: Boolean },
+        modalHidden: { type: Boolean },
+        randomNumber: { type: Number },
+        numbers: { type: Array},
+        cardsNumbers: { type: Array},
+        cards: { type: Array},
+    };
+  }
 
   constructor() {
     super();
@@ -71,10 +75,7 @@ export class MgGame extends LitElement {
     });
     this.prepareCards();
     this.getRandomNumber();
-    this.requestUpdate();
-    setTimeout(() => {
-      this.startGame();
-    }, 3000);
+    this.startGame();
   };
 
   configureBoard = () => {
@@ -91,11 +92,13 @@ export class MgGame extends LitElement {
   };
 
   startGame = () => {
-    this.cards.forEach((card) => {
-      card.tapped = true;
-    });
-    this.gameStarted = true;
-    this.requestUpdate();
+    setTimeout(() => {
+        this.cards.forEach((card) => {
+        card.tapped = true;
+        });
+        this.gameStarted = true;
+        this.requestUpdate();
+    }, 3000);
   };
 
   cardTapped = (e) => {
