@@ -55,6 +55,11 @@ export class MgGame extends LitElement {
     this.configureGame();
   }
 
+  restartGame = () => {
+    this.configureBoard();
+    this.configureGame();
+  }
+
   prepareCards = () => {
     this.cards = this.shadowRoot.querySelectorAll("mg-card");
     this.cards.forEach((card) => {
@@ -126,8 +131,8 @@ export class MgGame extends LitElement {
       <div @discover=${this.cardTapped} class="card-wrapper">
         ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
-      <button @click=${() => this.configureGame()}>Restart game</button>
-      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.configureGame}>
+      <button @click=${() => this.restartGame()}>Restart game</button>
+      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.restartGame}>
         Game over
       </mg-modal>
     `;
