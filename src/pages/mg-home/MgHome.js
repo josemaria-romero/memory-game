@@ -9,7 +9,23 @@ export class MgHome extends LitElement {
         `
     ];
 
+    #username = '';
+
+    formOnSubmit = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+    }
+
     render() {
-        return html`<h1>Home</h1>`;
+        return html`
+        <form @submit=${this.formOnSubmit}>
+            <input
+                type="text"
+                id="username"
+                placeholder="Name"
+                required
+            />
+            <input type='submit' value='Play'></input>
+        </form>`;
     }
 }
