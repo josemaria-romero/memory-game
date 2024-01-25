@@ -6,7 +6,6 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@web/dev-server": "^0.4.1",
     "@web/dev-server-rollup": "^0.6.1",
-    "es-dev-server": "^1.55.1",
     "eslint": "^8.56.0",
     "eslint-plugin-lit-a11y": "^1.1.0-next.1"
   },

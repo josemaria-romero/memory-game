@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { classMap } from "lit/directives/class-map.js";
-import { property } from "lit/decorators.js";
+import { ContextConsumer } from '@lit/context';
+import userContext from '../../contexts/user.js';
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 import "../../components/mg-modal/mg-modal.js";
@@ -35,8 +36,11 @@ export class MgGame extends LitElement {
     `,
   ];
 
+  #userContext = new ContextConsumer(this, { context: userContext });
+
   static get properties() {
     return {
+        username: {},
         gameStarted: { type: Boolean },
         modalHidden: { type: Boolean },
         randomNumber: { type: Number },
@@ -49,6 +53,7 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.configureBoard();
+    console.log('MgGame:' + this.#userContext.value)
   }
 
   firstUpdated() {

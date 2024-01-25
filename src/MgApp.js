@@ -1,6 +1,6 @@
 import { Router } from '@vaadin/router';
-import { LitElement, html } from 'lit';
-import { userContext } from './contexts/user.js';
+import { LitElement } from 'lit';
+import userContext from './contexts/user.js';
 import { ContextProvider } from '@lit/context';
 import './pages/mg-home/mg-home.js';
 import './pages/mg-game/mg-game.js';
@@ -50,8 +50,11 @@ export class MgApp extends LitElement {
   loginSuccessHandler = (e) => {
 		this.username = e.detail;
 		this.#userContext.setValue(e.detail);
+    console.log('App username: ' + this.#userContext.value)
     // This works but I do not know why, investigate it.
-    Router.go('/game')
+    // console.log(this.#router)
+    this.#router.render('/game')
+    // Router.go('/game')
 	}
 
 }
