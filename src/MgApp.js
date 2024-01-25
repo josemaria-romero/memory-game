@@ -1,5 +1,5 @@
-import { Router } from '@vaadin/router';
-import { LitElement } from 'lit';
+import { Router } from '@lit-labs/router';
+import { LitElement, html } from 'lit';
 import { userContext } from './contexts/user.js';
 import { ContextProvider } from '@lit/context';
 import './pages/mg-home/mg-home.js';
@@ -19,17 +19,15 @@ export class MgApp extends LitElement {
   routes = [
     {
       path: '/',
-      component: 'mg-home',
-      action: () => import('./pages/mg-home/mg-home.js'),
+	    render: () => html`<mg-home></mg-home>`,
+      enter: () => import('./pages/mg-home/mg-home.js'),
     },
     {
       path: '/game',
-      component: 'mg-game',
-      action: (context, commands) => {
-        if(!this.username){
-          return commands.redirect('/');
-        }
-      }
+	    render: () => html`<mg-game></mg-game>`,
+      enter: () => {
+          return import('./pages/mg-game/mg-game.js');
+      },
     },
   ];
 
@@ -38,26 +36,29 @@ export class MgApp extends LitElement {
 
   constructor(){
     super();
-    this.#router = new Router(this.outlet);
+    this.#router = new Router(this, this.routes);
     this.#userContext = new ContextProvider(this, { context: userContext });
-    this.#router.setRoutes(this.routes);
   }
 
   connectedCallback() {
 		super.connectedCallback();
-		this.outlet.addEventListener('login-success', this.loginSuccessHandler);
+		this.addEventListener('login-success', this.loginSuccessHandler);
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-		this.outlet.removeEventListener('login-success', this.loginSuccessHandler);
+		this.removeEventListener('login-success', this.loginSuccessHandler);
 	}
 
   loginSuccessHandler = (e) => {
 		this.username = e.detail;
 		this.#userContext.setValue(e.detail);
-    console.log('App username: ' + this.#userContext.value)
-    this.#router.render('/game')
+    // console.log('App username: ' + this.#userContext.value)
+    this.#router.goto('/game')
+	}
+
+  render() {
+    return this.#router.outlet();
 	}
 
 }

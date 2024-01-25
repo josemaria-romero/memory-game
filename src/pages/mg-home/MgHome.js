@@ -41,7 +41,7 @@ export class MgHome extends LitElement {
                 type="text"
                 id="username"
                 placeholder="Name"
-                required
+                
             />
             <input type='submit' value='Play'></input>
         </form>`;

@@ -53,9 +53,9 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.configureBoard();
-    console.log('MgGame:' + this.#userContext.value)
-    console.log(ContextConsumer);
-    console.log(this.#userContext);
+    // console.log('MgGame:' + this.#userContext.value)
+    // console.log(ContextConsumer);
+    // console.log(this.#userContext);
   }
 
   firstUpdated() {
@@ -139,7 +139,7 @@ export class MgGame extends LitElement {
         ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
       <button @click=${() => this.restartGame()}>Restart game</button>
-      <mg-modal .hide=${this.modalHidden} .buttonCallback=${this.restartGame}>
+      <mg-modal ?hide=${this.modalHidden} .buttonCallback=${this.restartGame}>
         Game over
       </mg-modal>
     `;
