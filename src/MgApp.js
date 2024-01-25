@@ -1,6 +1,6 @@
 import { Router } from '@vaadin/router';
 import { LitElement } from 'lit';
-import userContext from './contexts/user.js';
+import { userContext } from './contexts/user.js';
 import { ContextProvider } from '@lit/context';
 import './pages/mg-home/mg-home.js';
 import './pages/mg-game/mg-game.js';
@@ -8,6 +8,10 @@ import './pages/mg-game/mg-game.js';
 
 
 export class MgApp extends LitElement {
+
+  static properties = {
+    username: { type: String },
+  };
 
   // TODO - Actually need a div in dom for the outlet. Try to render this div before all to be self-dependant.
   outlet = document.getElementById('app-container');
@@ -29,11 +33,13 @@ export class MgApp extends LitElement {
     },
   ];
 
-  #router = new Router(this.outlet);
-  #userContext = new ContextProvider(this, {context: userContext});
+  #router;
+  #userContext;
 
   constructor(){
     super();
+    this.#router = new Router(this.outlet);
+    this.#userContext = new ContextProvider(this, { context: userContext });
     this.#router.setRoutes(this.routes);
   }
 
@@ -51,10 +57,7 @@ export class MgApp extends LitElement {
 		this.username = e.detail;
 		this.#userContext.setValue(e.detail);
     console.log('App username: ' + this.#userContext.value)
-    // This works but I do not know why, investigate it.
-    // console.log(this.#router)
     this.#router.render('/game')
-    // Router.go('/game')
 	}
 
 }
