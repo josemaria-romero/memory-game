@@ -11,9 +11,27 @@ export class MgHome extends LitElement {
 
     #username = '';
 
+    set username(value) {
+        let aux = this.#username;
+        this.#username = value;
+        this.requestUpdate('username', aux);
+    }
+    
+    get username() {
+        return this.#username;
+    }
+    
+
     formOnSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target);
+
+        this.username = e.target.querySelector('#username').value;
+
+        this.dispatchEvent(new CustomEvent('login-success', {
+			detail: this.username,
+			bubbles: true,
+			composed: true
+		}));
     }
 
     render() {
