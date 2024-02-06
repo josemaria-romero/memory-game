@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { classMap } from "lit/directives/class-map.js";
-import { ContextConsumer } from '@lit/context';
-import { userContext } from '../../contexts/user.js';
+import { ContextConsumer } from "@lit/context";
+import { userContext } from "../../contexts/user.js";
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 import "../../components/mg-modal/mg-modal.js";
@@ -18,8 +18,9 @@ export class MgGame extends LitElement {
         gap: 10px;
       }
 
-      h1{
+      h2 {
         margin-block: 0;
+        margin-top: 10px;
       }
 
       .card-wrapper {
@@ -45,22 +46,26 @@ export class MgGame extends LitElement {
 
   static get properties() {
     return {
-        username: {},
-        gameStarted: { type: Boolean },
-        modalHidden: { type: Boolean },
-        randomNumber: { type: Number },
-        numbers: { type: Array},
-        cardsNumbers: { type: Array},
-        cards: { type: Array},
+      username: {},
+      gameStarted: { type: Boolean },
+      modalHidden: { type: Boolean },
+      randomNumber: { type: Number },
+      numbers: { type: Array },
+      cardsNumbers: { type: Array },
+      cards: { type: Array },
+      level: { type: Number },
+      milliseconds: { type: Number },
+      pointsPerCorrect: { type: Number },
     };
   }
 
   constructor() {
     super();
+    this.changeLevel(0);
     this.configureBoard();
   }
 
-  connectedCallback(){
+  connectedCallback() {
     super.connectedCallback();
     this.username = this.#userConsumer.value.value;
   }
@@ -72,7 +77,7 @@ export class MgGame extends LitElement {
   restartGame = () => {
     this.configureBoard();
     this.configureGame();
-  }
+  };
 
   prepareCards = () => {
     this.cards = this.shadowRoot.querySelectorAll("mg-card");
@@ -111,13 +116,14 @@ export class MgGame extends LitElement {
   };
 
   startGame = () => {
+    console.log(this.milliseconds)
     setTimeout(() => {
-        this.cards.forEach((card) => {
+      this.cards.forEach((card) => {
         card.tapped = true;
-        });
-        this.gameStarted = true;
-        this.requestUpdate();
-    }, 3000);
+      });
+      this.gameStarted = true;
+      this.requestUpdate();
+    }, this.milliseconds);
   };
 
   cardTapped = (e) => {
@@ -132,6 +138,28 @@ export class MgGame extends LitElement {
     this.requestUpdate();
   };
 
+  selectLevel = (e) => {
+    this.changeLevel(e.detail);
+    e.stopPropagation();
+    this.requestUpdate();
+  };
+
+  changeLevel = (level) => {
+    if (this.level === parseInt(level)) return;
+    this.level = parseInt(level);
+    switch (this.level) {
+      case 0:
+        this.milliseconds = 10000;
+        break;
+      case 1:
+        this.milliseconds = 5000;
+        break;
+      default:
+        this.milliseconds = 2000;
+        break;
+    }
+  };
+
   gameOver = () => {
     this.modalHidden = false;
   };
@@ -139,8 +167,8 @@ export class MgGame extends LitElement {
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <h1>Jugador: ${this.username}</h1>
-      <mg-difficult></mg-difficult>
+      <h2>Jugador: ${this.username}</h2>
+      <mg-difficult @selectLevel=${this.selectLevel}></mg-difficult>
       <mg-indicator class=${classMap(indicatorClasses)}>
         ${this.randomNumber}
       </mg-indicator>

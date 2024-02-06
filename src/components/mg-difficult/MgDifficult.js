@@ -5,6 +5,8 @@ export class MgDifficult extends LitElement {
     css`
       :host {
         display: flex;
+        flex-direction: row;
+        align-items: center;
         gap: 20px;
       }
     `
@@ -15,7 +17,29 @@ export class MgDifficult extends LitElement {
       level: Number,
     }
   }
+
+  #selector;
   
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  firstUpdated(){
+    this.#selector = this.shadowRoot.querySelector('select');
+    this.#selector.addEventListener("change", this.changeSelection);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#selector.removeEventListener("change", this.changeSelection);
+  }
+
+  changeSelection = () => {
+    this.tapped = !this.tapped;
+    const e = new CustomEvent("selectLevel", { detail: this.#selector.value, composed: true, bubbles: true });
+    this.dispatchEvent(e);
+  };
+
 
   render() {
     return html`
