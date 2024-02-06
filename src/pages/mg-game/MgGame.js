@@ -5,6 +5,7 @@ import { userContext } from '../../contexts/user.js';
 import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 import "../../components/mg-modal/mg-modal.js";
+import "../../components/mg-difficult/mg-difficult.js";
 
 export class MgGame extends LitElement {
   static styles = [
@@ -138,14 +139,15 @@ export class MgGame extends LitElement {
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <h1>Player: ${this.username}</h1>
+      <h1>Jugador: ${this.username}</h1>
+      <mg-difficult></mg-difficult>
       <mg-indicator class=${classMap(indicatorClasses)}>
         ${this.randomNumber}
       </mg-indicator>
       <div @discover=${this.cardTapped} class="card-wrapper">
         ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
-      <button @click=${() => this.restartGame()}>Restart game</button>
+      <button @click=${() => this.restartGame()}>Nueva partida</button>
       <mg-modal ?hide=${this.modalHidden} .buttonCallback=${this.restartGame}>
         Game over
       </mg-modal>

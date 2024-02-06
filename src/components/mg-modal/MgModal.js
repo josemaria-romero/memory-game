@@ -65,8 +65,8 @@ export class MgModal extends LitElement {
       <div id="overlay" class=${classMap(classes)}></div>
       <div id="modal" class=${classMap(classes)}>
         <div class="wrapper">
-          <slot>Game Over</slot>
-          <button id="restartButton" @click=${()=>this.buttonCallback()}>Restart game</button>
+          <slot></slot>
+          <button id="restartButton" @click=${()=>this.buttonCallback()}>Nueva partida</button>
         </div>
       </div> 
     `;
