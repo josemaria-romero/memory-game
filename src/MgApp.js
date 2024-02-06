@@ -11,6 +11,7 @@ export class MgApp extends LitElement {
         :host {
             display: block;
             max-width:400px;
+            min-height: 400px;
             margin: 0 auto;
             border: solid black 1px
         }

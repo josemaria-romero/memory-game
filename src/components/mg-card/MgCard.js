@@ -3,9 +3,7 @@ import { property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 export class MgCard extends LitElement {
-//   @property({ type: Boolean, reflect: true }) tapped = true;
-//   @property({ type: Boolean, reflect: true }) correct = false;
-//   @property({ type: Boolean, reflect: true }) wrong = false;
+
   static get properties() {
     return {
       tapped: { type: Boolean, reflect: true },
@@ -23,11 +21,15 @@ export class MgCard extends LitElement {
       display: flex;
       justify-content: center;
       align-items: center;
+      transform: rotateY(360deg);
+      transition-duration:1s;
     }
 
     :host([tapped]) {
       background-color: #000;
-    }
+      transform: rotateY(180deg);
+      transition-duration:1s;
+    }    
 
     :host([correct]) {
       background-color: green;

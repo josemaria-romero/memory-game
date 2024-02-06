@@ -116,7 +116,6 @@ export class MgGame extends LitElement {
   };
 
   startGame = () => {
-    console.log(this.milliseconds)
     setTimeout(() => {
       this.cards.forEach((card) => {
         card.tapped = true;

@@ -8,6 +8,7 @@ export class MgHome extends LitElement {
             :host {
                 display: block;
                 text-align: center;
+                margin-top: 30px;
             }
         `
     ];
