@@ -36,6 +36,8 @@ export class MgGame extends LitElement {
     `,
   ];
 
+  #userConsumer = new ContextConsumer(this, { context: userContext });
+
   static get properties() {
     return {
         username: {},
@@ -127,6 +129,7 @@ export class MgGame extends LitElement {
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
+      <h1>Player: ${this.#userConsumer.value.value}</h1>
       <mg-indicator class=${classMap(indicatorClasses)}>
         ${this.randomNumber}
       </mg-indicator>
