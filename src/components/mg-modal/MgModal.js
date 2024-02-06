@@ -31,6 +31,11 @@ export class MgModal extends LitElement {
         z-index: 2;
       }
 
+      #modal .wrapper{
+        display: flex;
+        flex-direction: column
+      }
+
       #modal p {
         margin: 0;
         font-size: 18px;
@@ -59,8 +64,10 @@ export class MgModal extends LitElement {
     return html`
       <div id="overlay" class=${classMap(classes)}></div>
       <div id="modal" class=${classMap(classes)}>
-        <slot>Game Over</slot>
-        <button id="restartButton" @click=${()=>this.buttonCallback()}>Restart game</button>
+        <div class="wrapper">
+          <slot>Game Over</slot>
+          <button id="restartButton" @click=${()=>this.buttonCallback()}>Restart game</button>
+        </div>
       </div> 
     `;
   }

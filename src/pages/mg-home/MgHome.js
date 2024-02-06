@@ -7,6 +7,7 @@ export class MgHome extends LitElement {
         css`
             :host {
                 display: block;
+                text-align: center;
             }
         `
     ];
@@ -37,13 +38,13 @@ export class MgHome extends LitElement {
 
     render() {
         return html`
-        <h3>Username: ${this.username}</h3>
         <form @submit=${this.formOnSubmit}>
             <input
                 type="text"
                 id="username"
                 placeholder="Name"
                 @keyup=${this.onKeyUpInput}
+                required
             />
             <input type='submit' value='Play'></input>
         </form>`;

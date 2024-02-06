@@ -1,10 +1,37 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { Router } from '@lit-labs/router';
 import { ContextProvider } from '@lit/context';
 import { LocalStorageController } from 'relit';
 import { userContext } from './contexts/user.js';
 
 export class MgApp extends LitElement {
+
+  static styles = [
+    css`
+        :host {
+            display: block;
+            max-width:400px;
+            margin: 0 auto;
+            border: solid black 1px
+        }
+
+        header{
+          text-align: center;
+          background-color: blue;
+          color: white;
+        }
+
+        h1{
+          margin-block: 0
+        }
+        
+        h1 a, h1 a:visited {
+          margin: none;
+          text-decoration: none;
+          color: inherit;
+        }
+    `
+  ];
 
   static properties = {
     username: { type: String },
@@ -53,7 +80,12 @@ export class MgApp extends LitElement {
 	}
 
   render() {
-    return this.#router.outlet();
+    return html`
+      <header>
+          <h1><a href="/">Memory Card Game</a></h1>
+      </header>
+      ${this.#router.outlet()}
+    `
 	}
 
 }

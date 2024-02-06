@@ -17,6 +17,10 @@ export class MgGame extends LitElement {
         gap: 10px;
       }
 
+      h1{
+        margin-block: 0;
+      }
+
       .card-wrapper {
         margin: 0 auto;
         display: flex;
@@ -53,6 +57,11 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.configureBoard();
+  }
+
+  connectedCallback(){
+    super.connectedCallback();
+    this.username = this.#userConsumer.value.value;
   }
 
   firstUpdated() {
@@ -129,7 +138,7 @@ export class MgGame extends LitElement {
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <h1>Player: ${this.#userConsumer.value.value}</h1>
+      <h1>Player: ${this.username}</h1>
       <mg-indicator class=${classMap(indicatorClasses)}>
         ${this.randomNumber}
       </mg-indicator>
