@@ -1,11 +1,8 @@
-import { Router } from '@lit-labs/router';
 import { LitElement, html } from 'lit';
-import { userContext } from './contexts/user.js';
+import { Router } from '@lit-labs/router';
 import { ContextProvider } from '@lit/context';
-import './pages/mg-home/mg-home.js';
-import './pages/mg-game/mg-game.js';
-
-
+import { LocalStorageController } from 'relit';
+import { userContext } from './contexts/user.js';
 
 export class MgApp extends LitElement {
 
@@ -13,10 +10,7 @@ export class MgApp extends LitElement {
     username: { type: String },
   };
 
-  // TODO - Actually need a div in dom for the outlet. Try to render this div before all to be self-dependant.
-  outlet = document.getElementById('app-container');
-
-  routes = [
+  #routes = [
     {
       path: '/',
 	    render: () => html`<mg-home></mg-home>`,
@@ -26,35 +20,39 @@ export class MgApp extends LitElement {
       path: '/game',
 	    render: () => html`<mg-game></mg-game>`,
       enter: () => {
-          return import('./pages/mg-game/mg-game.js');
-      },
+				if(history.state?.user) {
+					import('./pages/mg-game/mg-game.js');
+				} else {
+					history.pushState({}, '', '/');
+				}
+      }
     },
+    {
+      path: '/*',
+      render: () => html`<h1>Url not found</h1>`,
+    }
   ];
 
-  #router;
-  #userContext;
+  #router = new Router(this, this.#routes);
+  #userStore = new LocalStorageController(this, 'MgApp.user', 'Carlos');
+  #userContext = new ContextProvider(this, { context: userContext });
 
   constructor(){
     super();
-    this.#router = new Router(this, this.routes);
-    this.#userContext = new ContextProvider(this, { context: userContext });
+    this.#userContext.setValue(this.#userStore);
   }
 
   connectedCallback() {
 		super.connectedCallback();
-		this.addEventListener('login-success', this.loginSuccessHandler);
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-		this.removeEventListener('login-success', this.loginSuccessHandler);
-	}
-
-  loginSuccessHandler = (e) => {
-		this.username = e.detail;
-		this.#userContext.setValue(e.detail);
-    // console.log('App username: ' + this.#userContext.value)
-    this.#router.goto('/game')
+		if (history.state?.user) {
+			this.#userStore.value = history.state.user;
+		}
+		globalThis.history.pushState = new Proxy(globalThis.history.pushState, {
+			apply: (target, thisArg, argArray) => {
+				target.apply(thisArg, argArray);
+				this.#router.goto(argArray[2]);
+			},
+		});
 	}
 
   render() {

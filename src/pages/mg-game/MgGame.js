@@ -36,8 +36,6 @@ export class MgGame extends LitElement {
     `,
   ];
 
-  #userContext = new ContextConsumer(this, { context: userContext });
-
   static get properties() {
     return {
         username: {},
@@ -53,9 +51,6 @@ export class MgGame extends LitElement {
   constructor() {
     super();
     this.configureBoard();
-    // console.log('MgGame:' + this.#userContext.value)
-    // console.log(ContextConsumer);
-    // console.log(this.#userContext);
   }
 
   firstUpdated() {

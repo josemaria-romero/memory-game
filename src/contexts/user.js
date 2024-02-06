@@ -1,4 +1,4 @@
-import { createContext} from '@lit/context';
+import { createContext } from '@lit/context';
 
 const contextKey = Symbol('user');
 
