@@ -12,11 +12,6 @@ export class MgApp extends LitElement {
 
   #routes = [
     {
-      path: '/',
-	    render: () => html`<mg-home></mg-home>`,
-      enter: () => import('./pages/mg-home/mg-home.js'),
-    },
-    {
       path: '/game',
 	    render: () => html`<mg-game></mg-game>`,
       enter: () => {
@@ -29,8 +24,9 @@ export class MgApp extends LitElement {
     },
     {
       path: '/*',
-      render: () => html`<h1>Url not found</h1>`,
-    }
+	    render: () => html`<mg-home></mg-home>`,
+      enter: () => import('./pages/mg-home/mg-home.js'),
+    },
   ];
 
   #router = new Router(this, this.#routes);
@@ -47,7 +43,8 @@ export class MgApp extends LitElement {
 		if (history.state?.user) {
 			this.#userStore.value = history.state.user;
 		}
-		globalThis.history.pushState = new Proxy(globalThis.history.pushState, {
+		globalThis.history.pushState = new Proxy(globalThis.history.pushState, 
+    {
 			apply: (target, thisArg, argArray) => {
 				target.apply(thisArg, argArray);
 				this.#router.goto(argArray[2]);
