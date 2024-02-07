@@ -44,7 +44,7 @@ export class MgApp extends LitElement {
 	    render: () => html`<mg-game></mg-game>`,
       enter: () => {
 				if(history.state?.user) {
-					import('./pages/mg-game/mg-game.js');
+					import('./views/mg-game/mg-game.js');
 				} else {
 					history.pushState({}, '', '/');
 				}
@@ -53,7 +53,7 @@ export class MgApp extends LitElement {
     {
       path: '/*',
 	    render: () => html`<mg-home></mg-home>`,
-      enter: () => import('./pages/mg-home/mg-home.js'),
+      enter: () => import('./views/mg-home/mg-home.js'),
     },
   ];
 
