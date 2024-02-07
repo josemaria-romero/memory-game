@@ -6,6 +6,7 @@ import "../../components/mg-card/mg-card.js";
 import "../../components/mg-indicator/mg-indicator.js";
 import "../../components/mg-modal/mg-modal.js";
 import "../../components/mg-difficult/mg-difficult.js";
+import "../../components/mg-points/mg-points.js";
 
 export class MgGame extends LitElement {
   static styles = [
@@ -39,6 +40,12 @@ export class MgGame extends LitElement {
       .tapped {
         background-color: #000;
       }
+
+      header{
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+      }
     `,
   ];
 
@@ -56,6 +63,7 @@ export class MgGame extends LitElement {
       level: { type: Number },
       milliseconds: { type: Number },
       pointsPerCorrect: { type: Number },
+      points: { type: Number },
     };
   }
 
@@ -89,6 +97,7 @@ export class MgGame extends LitElement {
   };
 
   configureGame = () => {
+    this.points = 0;
     this.modalHidden = true;
     this.gameStarted = false;
     this.cardsNumbers.sort(function () {
@@ -128,6 +137,7 @@ export class MgGame extends LitElement {
   cardTapped = (e) => {
     if (e.target.textContent === this.randomNumber.toString()) {
       e.target.correct = true;
+      this.points += this.pointsPerCorrect; 
       this.getRandomNumber();
     } else {
       e.target.wrong = true;
@@ -149,12 +159,15 @@ export class MgGame extends LitElement {
     switch (this.level) {
       case 0:
         this.milliseconds = 10000;
+        this.pointsPerCorrect = 10;
         break;
       case 1:
         this.milliseconds = 5000;
+        this.pointsPerCorrect = 20;
         break;
       default:
         this.milliseconds = 2000;
+        this.pointsPerCorrect = 30;
         break;
     }
   };
@@ -166,7 +179,10 @@ export class MgGame extends LitElement {
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
     return html`
-      <h2>Player: ${this.username}</h2>
+      <header>
+        <h3>Player: ${this.username}</h3>
+        <mg-points>${this.points}</mg-points>
+      </header>
       <mg-difficult @selectLevel=${this.selectLevel}></mg-difficult>
       <mg-indicator class=${classMap(indicatorClasses)}>
         ${this.randomNumber}
