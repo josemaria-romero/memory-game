@@ -55,10 +55,6 @@ export class MgModal extends LitElement {
     `,
   ];
 
-  constructor() {
-    super();
-  }
-
   render() {
     const classes = { hide: this.hide };
     return html`

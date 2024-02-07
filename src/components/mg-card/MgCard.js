@@ -1,6 +1,4 @@
 import { LitElement, html, css } from "lit";
-import { property } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
 
 export class MgCard extends LitElement {
 
