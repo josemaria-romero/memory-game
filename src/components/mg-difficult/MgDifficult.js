@@ -43,11 +43,11 @@ export class MgDifficult extends LitElement {
 
   render() {
     return html`
-    <h3>Seleccione la dificultad: </h3>
+    <h3>Choose difficult: </h3>
     <select id="selectLevel" name="selectLevel">
-        <option value="0">Bajo</option>
-        <option value="1">Medio</option>
-        <option value="2">Alto</option>
+        <option value="0">Low</option>
+        <option value="1">Middle</option>
+        <option value="2">High</option>
     </select>
     `;
   }
