@@ -8,7 +8,7 @@ export class MgHome extends LitElement {
             :host {
                 display: block;
                 text-align: center;
-                margin-top: 30px;
+                margin: 30px 20px;
             }
         `
     ];
@@ -48,6 +48,16 @@ export class MgHome extends LitElement {
                 required
             />
             <input type='submit' value='Play'></input>
-        </form>`;
+        </form>
+        <h2>Welcome to Memory Card Game!</h2>
+        <p>Introduce your name and press play to start.</p>
+        <p>You have to memorize the 9 cards. 
+        After a few seconds, cards will be hidden and you should select the 
+        card with the number shown in the circle.</p>
+        <p>You can select 3 different difficulties: low, middle and high. 
+        You have to press "Restart game" to apply the new difficult. 
+        With more difficult you gain more points but you have less time to memorize.</p>
+        <p>Good luck and have fun!</p>
+        `;
     }
 }

@@ -64,6 +64,7 @@ export class MgGame extends LitElement {
       milliseconds: { type: Number },
       pointsPerCorrect: { type: Number },
       points: { type: Number },
+      modalMessage: { type: String },
     };
   }
 
@@ -118,6 +119,10 @@ export class MgGame extends LitElement {
 
   getRandomNumber = () => {
     this.randomNumber = this.numbers.pop();
+    if( ! this.randomNumber){
+      this.modalMessage = 'You win!'
+      this.modalHidden = false;
+    }
   };
 
   fillArray = () => {
@@ -173,6 +178,7 @@ export class MgGame extends LitElement {
   };
 
   gameOver = () => {
+    this.modalMessage = 'Game Over';
     this.modalHidden = false;
   };
 
@@ -192,7 +198,7 @@ export class MgGame extends LitElement {
       </div>
       <button @click=${() => this.restartGame()}>Restart game</button>
       <mg-modal ?hide=${this.modalHidden} .buttonCallback=${this.restartGame}>
-        Game over
+        ${this.modalMessage}
       </mg-modal>
     `;
   }
