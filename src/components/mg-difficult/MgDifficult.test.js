@@ -1,5 +1,7 @@
 import { expect, oneEvent, fixture, html } from "@open-wc/testing";
-import "./mg-difficult.js";
+import { MgDifficult } from "./MgDifficult.js";
+
+window.customElements.define("mg-difficult", MgDifficult);
 
 describe("tests for MgDifficult", () => {
   it("should render component", async () => {

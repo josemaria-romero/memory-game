@@ -1,5 +1,7 @@
 import { expect, oneEvent, fixture, html } from "@open-wc/testing";
-import "./mg-indicator.js";
+import { MgIndicator } from "./MgIndicator.js";
+
+window.customElements.define("mg-indicator", MgIndicator);
 
 describe("tests for MgIndicator", () => {  
   it("should render component", async () => {

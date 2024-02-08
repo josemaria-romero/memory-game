@@ -1,5 +1,7 @@
 import { expect, oneEvent, fixture, html } from "@open-wc/testing";
-import "./mg-card.js";
+import { MgCard } from "./MgCard.js";
+
+window.customElements.define("mg-card", MgCard);
 
 describe("tests for MgCard", () => {
   it("render component", async () => {

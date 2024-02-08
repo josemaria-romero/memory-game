@@ -1,5 +1,7 @@
 import { expect, oneEvent, fixture, html } from "@open-wc/testing";
-import "./mg-points.js";
+import { MgPoints } from "./MgPoints.js";
+
+window.customElements.define("mg-points", MgPoints);
 
 describe("tests for MgPoints", () => {
   it("should render component", async () => {
