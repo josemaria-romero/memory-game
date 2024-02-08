@@ -76,68 +76,12 @@ export class MgGame extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.username = this.#userConsumer.value.value;
+    this.username = this.#userConsumer.value?.value || 'Player';
   }
 
   firstUpdated() {
     this.configureGame();
   }
-
-  restartGame = () => {
-    this.configureBoard();
-    this.configureGame();
-  };
-
-  prepareCards = () => {
-    this.cards = this.shadowRoot.querySelectorAll("mg-card");
-    this.cards.forEach((card) => {
-      card.tapped = false;
-      card.correct = false;
-      card.wrong = false;
-    });
-  };
-
-  configureGame = () => {
-    this.points = 0;
-    this.modalHidden = true;
-    this.gameStarted = false;
-    this.cardsNumbers.sort(function () {
-      return Math.random() - 0.5;
-    });
-    this.numbers.sort(function () {
-      return Math.random() - 0.5;
-    });
-    this.prepareCards();
-    this.getRandomNumber();
-    this.startGame();
-  };
-
-  configureBoard = () => {
-    this.cardsNumbers = this.fillArray();
-    this.numbers = this.fillArray();
-  };
-
-  getRandomNumber = () => {
-    this.randomNumber = this.numbers.pop();
-    if( ! this.randomNumber){
-      this.modalMessage = 'You win!'
-      this.modalHidden = false;
-    }
-  };
-
-  fillArray = () => {
-    return Array.from({ length: 9 }, (_, index) => index + 1);
-  };
-
-  startGame = () => {
-    setTimeout(() => {
-      this.cards.forEach((card) => {
-        card.tapped = true;
-      });
-      this.gameStarted = true;
-      this.requestUpdate();
-    }, this.milliseconds);
-  };
 
   cardTapped = (e) => {
     if (e.target.textContent === this.randomNumber.toString()) {
@@ -148,12 +92,6 @@ export class MgGame extends LitElement {
       e.target.wrong = true;
       this.gameOver();
     }
-    e.stopPropagation();
-    this.requestUpdate();
-  };
-
-  selectLevel = (e) => {
-    this.changeLevel(e.detail);
     e.stopPropagation();
     this.requestUpdate();
   };
@@ -177,9 +115,71 @@ export class MgGame extends LitElement {
     }
   };
 
+  configureBoard = () => {
+    this.cardsNumbers = this.fillArray();
+    this.numbers = this.fillArray();
+  };
+
+  configureGame = () => {
+    this.points = 0;
+    this.modalHidden = true;
+    this.gameStarted = false;
+    this.cardsNumbers.sort(function () {
+      return Math.random() - 0.5;
+    });
+    this.numbers.sort(function () {
+      return Math.random() - 0.5;
+    });
+    this.prepareCards();
+    this.getRandomNumber();
+    this.startGame();
+  };
+
+  fillArray = () => {
+    return Array.from({ length: 9 }, (_, index) => index + 1);
+  };
+
   gameOver = () => {
     this.modalMessage = 'Game Over';
     this.modalHidden = false;
+  };
+
+  getRandomNumber = () => {
+    this.randomNumber = this.numbers.pop();
+    if( ! this.randomNumber){
+      this.modalMessage = 'You win!'
+      this.modalHidden = false;
+    }
+  };
+
+  prepareCards = () => {
+    this.cards = this.shadowRoot.querySelectorAll("mg-card");
+    this.cards.forEach((card) => {
+      card.tapped = false;
+      card.correct = false;
+      card.wrong = false;
+    });
+  };
+
+  selectLevel = (e) => {
+    this.changeLevel(e.detail);
+    e.stopPropagation();
+    this.requestUpdate();
+  };
+
+  restartGame = () => {
+    this.configureBoard();
+    this.configureGame();
+  };
+
+  startGame = () => {
+    setTimeout(() => {
+      this.cards.forEach((card) => {
+        card.tapped = true;
+      });
+      this.gameStarted = true;
+      this.requestUpdate();
+    }, this.milliseconds);
   };
 
   render() {
