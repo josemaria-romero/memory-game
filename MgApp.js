@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { Router } from '@lit-labs/router';
 import { ContextProvider } from '@lit/context';
 import { LocalStorageController } from 'relit';
-import { userContext } from './contexts/user.js';
+import { userContext } from './src/contexts/user.js';
 
 export class MgApp extends LitElement {
 
@@ -19,6 +19,7 @@ export class MgApp extends LitElement {
         header{
           text-align: center;
           background-color: blue;
+          padding: 15px;
           color: white;
         }
 
@@ -44,7 +45,7 @@ export class MgApp extends LitElement {
 	    render: () => html`<mg-game></mg-game>`,
       enter: () => {
 				if(history.state?.user) {
-					import('./views/mg-game/mg-game.js');
+					import('./src/views/mg-game/mg-game.js');
 				} else {
 					history.pushState({}, '', '/');
 				}
@@ -53,7 +54,7 @@ export class MgApp extends LitElement {
     {
       path: '/*',
 	    render: () => html`<mg-home></mg-home>`,
-      enter: () => import('./views/mg-home/mg-home.js'),
+      enter: () => import('./src/views/mg-home/mg-home.js'),
     },
   ];
 

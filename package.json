@@ -19,14 +19,14 @@
   "description": "## Preparation",
   "type": "module",
   "version": "1.0.0",
-  "main": "index.html",
+  "main": "./index.html",
   "scripts": {
     "build": "npm run importmaps && rimraf dist/rollup && rollup -c rollup.config.js",
-    "importmaps": "jspm link src/index.dev.html -o src/index.html",
+    "importmaps": "jspm link index.dev.html -o index.html",
     "test": "web-test-runner src/**/*.test.js --node-resolve",
     "test:watch": "web-test-runner src/**/*.test.js --node-resolve --watch",
-    "start": "web-dev-server --app-index src/index.dev.html --node-resolve --watch --open",
-    "start:build": "npm run build && web-dev-server --root-dir dist/rollup --app-index src/index.html --compatibility none --open",
+    "start": "web-dev-server --app-index index.dev.html --node-resolve --watch --open",
+    "start:build": "npm run build && web-dev-server --root-dir dist/rollup --app-index index.html --compatibility none --open",
     "start:cdn": "npm run importmaps && web-dev-server --root-dir src --app-index index.dev.html --open --watch"
   },
   "author": "José María",

@@ -19,7 +19,7 @@ import { rollupPluginHTML } from '@web/rollup-plugin-html';
 // import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
-  input: 'src/index.html',
+  input: './index.html',
 	output: { dir: 'dist/rollup' },
 
 	// 3.2 ES module: define external dependencies to avoid warnings

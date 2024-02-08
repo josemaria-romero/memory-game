@@ -22,6 +22,7 @@ class MgApp extends LitElement {
         header{
           text-align: center;
           background-color: blue;
+          padding: 15px;
           color: white;
         }
 
@@ -56,7 +57,7 @@ class MgApp extends LitElement {
     {
       path: '/*',
 	    render: () => html`<mg-home></mg-home>`,
-      enter: () => import('./mg-home-xrsUi7lD.js'),
+      enter: () => import('./mg-home-MfO85zh6.js'),
     },
   ];
 
