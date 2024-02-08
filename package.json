@@ -18,6 +18,7 @@
   "main": "index.html",
   "scripts": {
     "test": "web-test-runner src/**/*.test.js --node-resolve",
+    "test:watch": "web-test-runner src/**/*.test.js --node-resolve --watch",
     "start": "web-dev-server --app-index index.html --node-resolve --watch --open"
   },
   "author": "José María",
