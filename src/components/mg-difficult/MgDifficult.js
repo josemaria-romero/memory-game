@@ -12,12 +12,6 @@ export class MgDifficult extends LitElement {
     `
   ];
 
-  static get properties(){
-    return {
-      level: Number,
-    }
-  }
-
   #selector;
   
   connectedCallback() {
@@ -35,7 +29,6 @@ export class MgDifficult extends LitElement {
   }
 
   changeSelection = () => {
-    this.tapped = !this.tapped;
     const e = new CustomEvent("selectLevel", { detail: this.#selector.value, composed: true, bubbles: true });
     this.dispatchEvent(e);
   };
