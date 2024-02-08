@@ -40,17 +40,17 @@ export class MgCard extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("click", this.toogleTapped);
+    this.addEventListener("click", this.toggleTapped);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("click", this.toogleTapped);
+    this.removeEventListener("click", this.toggleTapped);
   }
 
-  toogleTapped = () => {
+  toggleTapped = () => {
     this.tapped = !this.tapped;
-    const e = new CustomEvent("discover", { composed: true, bubbles: true });
+    const e = new CustomEvent("discover", { detail: 'card', composed: true, bubbles: true });
     this.dispatchEvent(e);
   };
 
