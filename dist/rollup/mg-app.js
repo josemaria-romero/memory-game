@@ -48,7 +48,7 @@ class MgApp extends LitElement {
 	    render: () => html`<mg-game></mg-game>`,
       enter: () => {
 				if(history.state?.user) {
-					import('./mg-game-WzeCcZBg.js');
+					import('./mg-game-0M3et1Z5.js');
 				} else {
 					history.pushState({}, '', '/');
 				}

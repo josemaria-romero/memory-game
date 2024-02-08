@@ -249,6 +249,7 @@ class MgGame extends LitElement {
         justify-content: center;
         align-items: center;
         gap: 10px;
+        position: relative;
       }
 
       h2 {
@@ -256,7 +257,22 @@ class MgGame extends LitElement {
         margin-top: 10px;
       }
 
+      #overlay.shown{
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      #overlay{
+        display: none;
+      }
+
       .card-wrapper {
+        position:relative;
         margin: 0 auto;
         display: flex;
         flex-direction: row;
@@ -374,6 +390,9 @@ class MgGame extends LitElement {
   };
 
   configureGame = () => {
+    this.shadowRoot.querySelectorAll('mg-card').forEach((card)=>{
+      card.setAttribute('disabled', 'true');
+    });
     this.points = 0;
     this.modalHidden = true;
     this.gameStarted = false;
@@ -432,11 +451,18 @@ class MgGame extends LitElement {
       });
       this.gameStarted = true;
       this.requestUpdate();
+      this.shadowRoot.querySelectorAll('mg-card').forEach((card)=>{
+        if (card.hasAttribute('disabled')) {
+          card.removeAttribute('disabled');
+        }
+      });
     }, this.milliseconds);
+
   };
 
   render() {
     const indicatorClasses = { tapped: !this.gameStarted };
+    const overlayClasses = { shown: !this.gameStarted };
     return html`
       <header>
         <h3>Player: ${this.username}</h3>
@@ -447,6 +473,7 @@ class MgGame extends LitElement {
         ${this.randomNumber}
       </mg-indicator>
       <div @discover=${this.cardTapped} class="card-wrapper">
+      <div id="overlay" class=${classMap(overlayClasses)}></div>
         ${this.cardsNumbers.map((card) => html` <mg-card>${card}</mg-card> `)}
       </div>
       <button @click=${() => this.restartGame()}>Restart game</button>
